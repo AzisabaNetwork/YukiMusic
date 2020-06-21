@@ -3,8 +3,8 @@ package io.github.yukileafx.yukimusic.nbs
 import java.io.InputStream
 
 data class NBS(
-    var header: NBSHeader,
-    var noteBlocks: NBSNoteBlocks
+    val header: NBSHeader,
+    val noteBlocks: NBSNoteBlocks
 ) {
 
     companion object {

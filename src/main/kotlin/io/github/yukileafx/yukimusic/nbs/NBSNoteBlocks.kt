@@ -1,3 +1,3 @@
 package io.github.yukileafx.yukimusic.nbs
 
-class NBSNoteBlocks : LinkedHashMap<Pair<Int, Int>, NBSNoteBlock>()
+class NBSNoteBlocks : HashMap<Pair<Int, Int>, NBSNoteBlock>()
