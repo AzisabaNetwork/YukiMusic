@@ -33,7 +33,8 @@ class PlayNBSURLCommand(private val plugin: YukiMusic) : CommandExecutor {
                 val header = nbsIn.readHeader()
                 sender.sendMessage(header.toString())
             } catch (t: Throwable) {
-                sender.sendMessage("${ChatColor.RED}Failed to connect URL.")
+                sender.sendMessage("${ChatColor.RED}Failed to load NBS!")
+                sender.sendMessage("${ChatColor.GRAY}$t")
             }
         }
         return true
