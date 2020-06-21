@@ -30,7 +30,7 @@ class NBSInputStream(inputStream: InputStream) : DataInputStream(inputStream) {
             .apply {
                 val first2Byte = readLittleEndianShort()
 
-                newFormat = first2Byte == 0.toShort()
+                newFormat = first2Byte.toInt() == 0
 
                 if (newFormat) {
                     version = readByte()
@@ -62,6 +62,43 @@ class NBSInputStream(inputStream: InputStream) : DataInputStream(inputStream) {
                     loop = readBoolean()
                     maxLoopCount = readByte()
                     loopStartTick = readLittleEndianShort()
+                }
+            }
+
+    fun readNoteBlocks(header: NBSHeader) =
+        NBSNoteBlocks()
+            .apply {
+                var tick = -1
+                while (true) {
+                    val moreTicks = readLittleEndianShort().toInt()
+
+                    takeIf { moreTicks != 0 }
+                        ?.run { tick += moreTicks }
+                        ?: break
+
+                    var layer = -1
+                    while (true) {
+                        val moreLayers = readLittleEndianShort().toInt()
+
+                        takeIf { moreLayers != 0 }
+                            ?.run { layer += moreLayers }
+                            ?: break
+
+                        val pos = Pair(tick, layer)
+                        val noteBlock = NBSNoteBlock()
+                            .apply {
+                                instrument = readByte()
+                                key = readByte()
+
+                                if (header.version >= 4) {
+                                    velocity = readByte()
+                                    panning = readByte()
+                                    pitch = readLittleEndianShort()
+                                }
+                            }
+
+                        put(pos, noteBlock)
+                    }
                 }
             }
 }

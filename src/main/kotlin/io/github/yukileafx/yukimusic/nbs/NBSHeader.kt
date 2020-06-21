@@ -1,7 +1,6 @@
 package io.github.yukileafx.yukimusic.nbs
 
 data class NBSHeader(
-
     var newFormat: Boolean = false,
 
     var version: Byte = 0,
