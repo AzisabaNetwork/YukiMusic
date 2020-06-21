@@ -5,45 +5,61 @@ import java.io.InputStream
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 
-class NBSInputStream(`in`: InputStream) : DataInputStream(`in`) {
+class NBSInputStream(inputStream: InputStream) : DataInputStream(inputStream) {
 
-    private fun readLittleEndianShort(): Short =
+    fun readLittleEndianShort() =
         ByteArray(2)
             .apply { read(this) }
             .let { ByteBuffer.wrap(it).order(ByteOrder.LITTLE_ENDIAN).short }
 
-    private fun readLittleEndianInt(): Int =
+    fun readLittleEndianInt() =
         ByteArray(4)
             .apply { read(this) }
             .let { ByteBuffer.wrap(it).order(ByteOrder.LITTLE_ENDIAN).int }
 
-    private fun readString(): String {
-        val len = readLittleEndianInt()
-        return ByteArray(len)
+    fun readString() =
+        let {
+            val len = readLittleEndianInt()
+            ByteArray(len)
+        }
             .apply { read(this) }
             .toString(Charsets.UTF_8)
-    }
 
-    fun readHeader(): NBSHeader {
-        val header = NBSHeader()
+    fun readHeader() =
+        NBSHeader()
+            .apply {
+                val first2Byte = readLittleEndianShort()
 
-        val first2Byte = readLittleEndianShort()
+                newFormat = first2Byte == 0.toShort()
 
-        if (first2Byte == 0.toShort()) {
-            header.newFormat = true
-            header.version = readByte()
-            header.vanillaInstrumentCount = readByte()
-            header.songLength = readLittleEndianShort()
-        } else {
-            header.songLength = first2Byte
-        }
+                if (newFormat) {
+                    version = readByte()
+                    vanillaInstrumentCount = readByte()
+                    songLength = readLittleEndianShort()
+                } else {
+                    songLength = first2Byte
+                }
 
-        header.layerCount = readLittleEndianShort()
-        header.songName = readString()
-        header.songAuthor = readString()
-        header.songOriginalAuthor = readString()
-        header.songDescription = readString()
+                layerCount = readLittleEndianShort()
+                songName = readString()
+                songAuthor = readString()
+                songOriginalAuthor = readString()
+                songDescription = readString()
+                songTempo = readLittleEndianShort()
+                autoSaving = readBoolean()
+                autoSavingDuration = readByte()
+                timeSignature = readByte()
+                minutesSpent = readInt()
+                leftClicks = readInt()
+                rightClicks = readInt()
+                noteBlocksAdded = readInt()
+                noteBlocksRemoved = readInt()
+                importedFileName = readString()
 
-        return header
-    }
+                if (newFormat) {
+                    loop = readBoolean()
+                    maxLoopCount = readByte()
+                    loopStartTick = readLittleEndianShort()
+                }
+            }
 }
