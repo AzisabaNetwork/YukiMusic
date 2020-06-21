@@ -1,3 +1,11 @@
 name: YukiMusic
 main: io.github.yukileafx.yukimusic.YukiMusic
 version: 0.0.1
+
+commands:
+  play-nbs-url:
+    usage: /play-nbs-url <URL>
+    permission: yukimusic.command.play-nbs-url
+permissions:
+  yukimusic.command.play-nbs-url:
+    default: true
