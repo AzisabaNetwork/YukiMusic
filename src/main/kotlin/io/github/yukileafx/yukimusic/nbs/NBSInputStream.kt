@@ -35,7 +35,9 @@ class NBSInputStream(inputStream: InputStream) : DataInputStream(inputStream) {
                 if (newFormat) {
                     version = readByte()
                     vanillaInstrumentCount = readByte()
-                    songLength = readLittleEndianShort()
+                    if (version >= 3) {
+                        songLength = readLittleEndianShort()
+                    }
                 } else {
                     songLength = first2Byte
                 }
@@ -49,14 +51,14 @@ class NBSInputStream(inputStream: InputStream) : DataInputStream(inputStream) {
                 autoSaving = readBoolean()
                 autoSavingDuration = readByte()
                 timeSignature = readByte()
-                minutesSpent = readInt()
-                leftClicks = readInt()
-                rightClicks = readInt()
-                noteBlocksAdded = readInt()
-                noteBlocksRemoved = readInt()
+                minutesSpent = readLittleEndianInt()
+                leftClicks = readLittleEndianInt()
+                rightClicks = readLittleEndianInt()
+                noteBlocksAdded = readLittleEndianInt()
+                noteBlocksRemoved = readLittleEndianInt()
                 importedFileName = readString()
 
-                if (newFormat) {
+                if (version >= 4) {
                     loop = readBoolean()
                     maxLoopCount = readByte()
                     loopStartTick = readLittleEndianShort()
