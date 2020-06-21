@@ -5,19 +5,19 @@ import java.io.InputStream
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 
-class NBSInputStream(inputStream: InputStream) : DataInputStream(inputStream) {
+class NBSInputStream(`in`: InputStream) : DataInputStream(`in`) {
 
-    fun readLittleEndianShort() =
+    private fun readLittleEndianShort() =
         ByteArray(2)
             .apply { read(this) }
             .let { ByteBuffer.wrap(it).order(ByteOrder.LITTLE_ENDIAN).short }
 
-    fun readLittleEndianInt() =
+    private fun readLittleEndianInt() =
         ByteArray(4)
             .apply { read(this) }
             .let { ByteBuffer.wrap(it).order(ByteOrder.LITTLE_ENDIAN).int }
 
-    fun readString() =
+    private fun readString() =
         let {
             val len = readLittleEndianInt()
             ByteArray(len)

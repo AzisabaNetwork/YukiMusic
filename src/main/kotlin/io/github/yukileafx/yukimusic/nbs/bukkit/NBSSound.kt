@@ -4,8 +4,8 @@ import org.bukkit.Sound
 
 object NBSSound {
 
-    fun getBukkitSound(instrument: Byte): Sound {
-        return when (instrument) {
+    fun getBukkitSound(instrument: Byte) =
+        when (instrument) {
             0.toByte() -> Sound.BLOCK_NOTE_HARP
             1.toByte() -> Sound.BLOCK_NOTE_BASS
             2.toByte() -> Sound.BLOCK_NOTE_BASEDRUM
@@ -18,5 +18,4 @@ object NBSSound {
             9.toByte() -> Sound.BLOCK_NOTE_XYLOPHONE
             else -> Sound.BLOCK_NOTE_HARP
         }
-    }
 }
