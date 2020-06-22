@@ -15,8 +15,8 @@ class NBSDebugPlayer(
 ) :
     NBSPlayer(plugin, nbs, players) {
 
-    override fun onSound(player: Player, pos: Pair<Int, Int>, noteBlock: NBSNoteBlock, sound: Sound, pitch: Any) {
-        author.sendMessage("${player.name}: $pos -> $noteBlock '$sound' #$pitch")
+    override fun onSound(pos: Pair<Int, Int>, noteBlock: NBSNoteBlock, sound: Sound, pitch: Any) {
+        author.sendMessage("$pos -> $noteBlock '$sound' #$pitch")
     }
 
     override fun onFinish() {

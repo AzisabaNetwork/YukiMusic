@@ -28,6 +28,7 @@ open class NBSPlayer(plugin: Plugin, nbs: NBS, players: Collection<Player>) {
 
                 if (currentTick > realLength) {
                     onFinish()
+
                     cancel()
                     return
                 }
@@ -35,12 +36,12 @@ open class NBSPlayer(plugin: Plugin, nbs: NBS, players: Collection<Player>) {
                 for (layer in 0 until nbs.header.layerCount) {
                     val pos = Pair(currentTick, layer)
                     val noteBlock = realNoteBlocks[pos] ?: continue
+                    val sound = NBSSound.getBukkitSound(noteBlock.instrument)
+                    val pitch = 2.toFloat().pow(-(12 - (noteBlock.key.toFloat() - 33)) / 12)
+
+                    onSound(pos, noteBlock, sound, pitch)
 
                     for (player in players) {
-                        val sound = NBSSound.getBukkitSound(noteBlock.instrument)
-                        val pitch = 2.toFloat().pow(-(12 - (noteBlock.key.toFloat() - 33)) / 12)
-
-                        onSound(player, pos, noteBlock, sound, pitch)
                         player.playSound(player.location, sound, 1f, pitch)
                     }
                 }
@@ -48,7 +49,7 @@ open class NBSPlayer(plugin: Plugin, nbs: NBS, players: Collection<Player>) {
         }.runTaskTimer(plugin, 0, 1)
     }
 
-    open fun onSound(player: Player, pos: Pair<Int, Int>, noteBlock: NBSNoteBlock, sound: Sound, pitch: Any) {}
+    open fun onSound(pos: Pair<Int, Int>, noteBlock: NBSNoteBlock, sound: Sound, pitch: Any) {}
 
     open fun onFinish() {}
 }

@@ -1,6 +1,6 @@
 name: YukiMusic
 main: io.github.yukileafx.yukimusic.YukiMusic
-version: 0.0.3
+version: 0.0.4
 
 commands:
   play-nbs-url:
