@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "io.github.yukileafx"
-version = "0.0.2"
+version = "0.0.3"
 
 repositories {
     mavenCentral()
@@ -28,5 +28,8 @@ tasks {
 }
 
 tasks.withType<ShadowJar> {
+    relocate("kotlin", "io.github.yukileafx.yukimusic.libs.kotlin")
+    relocate("org.jetbrains.annotations", "io.github.yukileafx.yukimusic.libs.org.jetbrains.annotations")
+
     minimize()
 }
