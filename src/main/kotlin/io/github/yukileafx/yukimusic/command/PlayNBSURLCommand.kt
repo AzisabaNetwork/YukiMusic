@@ -29,7 +29,7 @@ class PlayNBSURLCommand(private val plugin: YukiMusic) : CommandExecutor {
                 val nbs = NBS.decode(`in`)
                 sender.sendMessage("Loaded ${nbs.noteBlocks.size} note blocks.")
 
-                val nbsPlayer = NBSDebugPlayer(plugin, nbs, plugin.server.onlinePlayers)
+                val nbsPlayer = NBSDebugPlayer(sender, plugin, nbs, plugin.server.onlinePlayers)
                 sender.sendMessage("Song length: ${nbsPlayer.realLength}")
 
                 nbsPlayer.playing = true
