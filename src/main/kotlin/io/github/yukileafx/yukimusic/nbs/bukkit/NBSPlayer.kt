@@ -26,7 +26,7 @@ open class NBSPlayer(plugin: Plugin, nbs: NBS, players: Collection<Player>) {
 
                 currentTick++
 
-                if (currentTick >= realLength) {
+                if (currentTick > realLength) {
                     onFinish()
                     cancel()
                     return
