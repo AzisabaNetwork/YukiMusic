@@ -4,6 +4,7 @@ import java.io.DataInputStream
 import java.io.InputStream
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
+import kotlin.math.min
 
 class NBSInputStream(`in`: InputStream) : DataInputStream(`in`) {
 
@@ -19,7 +20,7 @@ class NBSInputStream(`in`: InputStream) : DataInputStream(`in`) {
 
     private fun readString() =
         let {
-            val len = readLittleEndianInt()
+            val len = min(available(), readLittleEndianInt())
             ByteArray(len)
         }
             .apply { read(this) }
