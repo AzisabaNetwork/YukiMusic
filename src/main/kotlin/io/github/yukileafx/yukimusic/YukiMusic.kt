@@ -6,6 +6,6 @@ import org.bukkit.plugin.java.JavaPlugin
 class YukiMusic : JavaPlugin() {
 
     override fun onEnable() {
-        getCommand("play-nbs-url").executor = PlayNBSURLCommand(this)
+        getCommand("play-nbs-url")?.setExecutor(PlayNBSURLCommand(this))
     }
 }

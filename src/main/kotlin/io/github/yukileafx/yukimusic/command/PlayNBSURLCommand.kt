@@ -17,7 +17,7 @@ class PlayNBSURLCommand(private val plugin: YukiMusic) : CommandExecutor {
             return false
         }
 
-        plugin.server.scheduler.runTaskAsynchronously(plugin) {
+        plugin.server.scheduler.runTaskAsynchronously(plugin) { ->
             try {
                 val urlSpec = args.joinToString(" ")
                 sender.sendMessage("Connecting to $urlSpec ...")
